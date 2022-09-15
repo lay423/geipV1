@@ -18,7 +18,7 @@ public class GeipBasicController {
 
     URL url;
     HttpURLConnection connection;
-
+    String test;
     @GetMapping("/search/{summonerName}")
     public String search(@PathVariable String summonerName) throws IOException {
         String URL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+
