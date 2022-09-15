@@ -2,6 +2,6 @@ package hello.geip.web.basic;
 
 public class Key {
 
-    static String API_KEY = "a";
+    static String API_KEY = "ab";
 
 }
