@@ -34,7 +34,7 @@ public class GeipBasicController {
             stringBuffer.append((inputLine));
         }
         bufferedReader.close();
-
+        String number;
         String response = stringBuffer.toString();
         return response;
     }
