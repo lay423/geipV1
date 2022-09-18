@@ -2,18 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
     <title>GEIP</title>
 </head>
 <body>
 
 <div>
-    <lab<!--el for="summonerName">소환사 이름</label>
-    <input type="text" id="summonerName"
-           name="summonerName" class="form-control"
-           value="소환사이름"
-           th:value="${summonerName}"
-           readonly>-->
+
+    <table>
+        <thead>
+        <tr>
+            <th>소환사이름</th>
+            <th>아이콘아이디</th>
+            <th>레벨</th>
+            <th>puuid</th>
+        </tr>
+        </thead>
+        <tbody>
+<!--        <tr>-->
+<!--            <td th:text="${summoner.summonerName}">소환사이름</td>-->
+<!--            <td th:text="${summoner.iconId}">아이콘아이디</td>-->
+<!--            <td th:text="${summoner.level}">레벨</td>-->
+<!--            <td th:text="${summoner.puuid}">puuid</td>-->
+<!--        </tr>-->
+        <tr>
+            <td th:text="${match.gameType}">게임종류</td>
+<!--            <td th:text="${match.win}">승패</td>-->
+<!--            <td th:text="${match.championName}"챔피언이름</td>-->
+<!--            <td th:text="${match.champLevel}">챔피언 레벨</td>-->
+<!--            <td th:text="${match.kills}">킬</td>-->
+<!--            <td th:text="${match.deathsByEnemyChamps}">데스</td>-->
+<!--            <td th:text="${match.assist}">어시</td>-->
+        </tr>
+        </tbody>
+    </table>
+    <p th:text="${test}"></p>
+
 </div>
 
 </body>
+
+
 </html>
