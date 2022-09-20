@@ -41,8 +41,8 @@ public class GeipBasicController {
         summoner.setPuuid(getSource("puuid", response));
 
 //        summoner 모델 addAttribute
-//        model.addAttribute("summoner", summoner);
-
+        model.addAttribute("summoner", summoner);
+//        return "basic/index";
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
                 + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
         String[] matchId = new String[20];
@@ -79,7 +79,7 @@ public class GeipBasicController {
 //                        +" "+ getSource("championName", response)+" "+ getSource("championLevel", response)+" "+
 //                getSource("kills", response)+" "+getSource("deathsByEnemyChamps", response)+" "+
 //                getSource("assist", response);
-//        return response;
+        return response;
 
 
 //        @Controller로 바꾸고
@@ -88,15 +88,115 @@ public class GeipBasicController {
 
 //        이건 프로필 이미지 불러올때 쓸거
 //        String result1 = "http://ddragon.leagueoflegends.com/cdn/10.11.1/img/profileicon/"
-//                + level_int + ".jpg";
-//        String iconURL = "http://ddragon.leagueoflegends.com/cdn/10.11.1/img/profileicon/2074.jpg";
+//                + level_int + ".png";
+//        String iconURL = "http://ddragon.leagueoflegends.com/cdn/10.11.1/img/profileicon/2074.png";
 
 
 
 //        이건 getSource 잘 작동하는지 확인핳때
-        return (getSource("profileIconId", response)) +" "+
-                (getSource("summonerLevel", response))+" "+
-                        getSource("puuid", response)+" "+summonerName;
+//        return (getSource("profileIconId", response)) +" "+
+//                (getSource("summonerLevel", response))+" "+
+//                        getSource("puuid", response)+" "+summonerName;
+    }
+    @GetMapping("/search/{summonerName}/matchIds")
+    public String search(@PathVariable String summonerName) throws IOException {
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner.setSummonerName(summonerName);
+        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
+        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
+        summoner.setPuuid(getSource("puuid", response));
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
+                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+
+        return response;
+    }
+
+
+
+    @GetMapping("/search/{summonerName}/matchAll")
+    public String searchMatchAll(@PathVariable String summonerName) throws IOException {
+        int fromNameToStart = 10850;
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner.setSummonerName(summonerName);
+        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
+        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
+        summoner.setPuuid(getSource("puuid", response));
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
+                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+
+        String[] matchId = new String[20];
+        extractMatchId(response, matchId);
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
+                + matchId[0] + "?api_key=" + API_KEY);
+
+        return response;
+    }
+
+    @GetMapping("/search/{summonerName}/matchOnly")
+    public String searchMatchOnly(@PathVariable String summonerName) throws IOException {
+        int fromNameToStart = 10850;
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner.setSummonerName(summonerName);
+        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
+        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
+        summoner.setPuuid(getSource("puuid", response));
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
+                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+
+        String[] matchId = new String[20];
+        extractMatchId(response, matchId);
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
+                + matchId[0] + "?api_key=" + API_KEY);
+        response = response.substring(response.indexOf(summonerName) - fromNameToStart);
+        response = response.substring(response.indexOf("assist"));
+        response = response.substring(response.indexOf("assist"), response.indexOf("win")+12);
+
+        return response;
+    }
+
+    @GetMapping("/search/{summonerName}/matchIntro")
+    public String searchMatchIntro(@PathVariable String summonerName) throws IOException {
+        int fromNameToStart = 10850;
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner.setSummonerName(summonerName);
+        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
+        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
+        summoner.setPuuid(getSource("puuid", response));
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
+                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+
+        String[] matchId = new String[20];
+        extractMatchId(response, matchId);
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
+                + matchId[0] + "?api_key=" + API_KEY);
+        response = response.substring(0, response.indexOf("assist"));
+
+        return response;
     }
 
     private static void extractMatchId(String response, String[] matchId) {
