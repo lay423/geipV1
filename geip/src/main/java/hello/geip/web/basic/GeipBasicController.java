@@ -3,7 +3,6 @@ package hello.geip.web.basic;
 import hello.geip.domain.Match;
 import hello.geip.domain.Summoner;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,29 +21,39 @@ import static hello.geip.web.basic.Key.API_KEY;
 public class GeipBasicController {
 
 
-    Summoner summoner = new Summoner();
+    Summoner summoner;
     URL url;
     HttpURLConnection connection;
+    final int NAME_TO_START = 6000;
+
+    @GetMapping("/test")
+    public String Test(){
+        String time = "12분 32초";
+        String min = time.substring(0, time.indexOf("분"));
+        log.info("min={}", min);
+        return "ok";
+    }
+
 
     @GetMapping("/search/{summonerName}")
     public String search(@PathVariable String summonerName, Model model) throws IOException {
 
-        int fromNameToStart = 10850;
+
 
 
         String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName + "?api_key=" + API_KEY);
 
-        summoner.setSummonerName(summonerName);
-        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
-        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
-        summoner.setPuuid(getSource("puuid", response));
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
 
 //        summoner 모델 addAttribute
         model.addAttribute("summoner", summoner);
 //        return "basic/index";
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
-                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
         String[] matchId = new String[20];
         extractMatchId(response, matchId);
 
@@ -53,23 +62,19 @@ public class GeipBasicController {
 //        puuid로 match 정보 불러오기
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
                 + matchId[0] + "?api_key=" + API_KEY);
-        response = response.substring(response.indexOf(summonerName) - fromNameToStart);
+        response = response.substring(response.indexOf(summonerName) - NAME_TO_START);
         response = response.substring(response.indexOf("assist"));
         response = response.substring(response.indexOf("assist"), response.indexOf("win")+12);
 
 
-//        Match 객체 생성
-//        Match match = new Match(1, getSource("gameType", response), getSource("win", response),
-//                getSource("championName", response), getSource("championLevel", response),
-//                getSource("kills", response), getSource("deathsByEnemyChamps", response),
-//                getSource("assist", response));
-//        model.addAttribute("match", match);
+
 
 
 
         response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName + "?api_key=" + API_KEY);
 
+        log.info("length={}", "puuid".length());
 
 
 
@@ -80,7 +85,7 @@ public class GeipBasicController {
 //                getSource("kills", response)+" "+getSource("deathsByEnemyChamps", response)+" "+
 //                getSource("assist", response);
         return response;
-
+//
 
 //        @Controller로 바꾸고
 //        return "basic/search";
@@ -94,23 +99,39 @@ public class GeipBasicController {
 
 
 //        이건 getSource 잘 작동하는지 확인핳때
-//        return (getSource("profileIconId", response)) +" "+
-//                (getSource("summonerLevel", response))+" "+
-//                        getSource("puuid", response)+" "+summonerName;
+
     }
+
+    @GetMapping("/search/{summonerName}/clear")
+    public String searchClear(@PathVariable String summonerName) throws IOException {
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
+
+        return "닉네임 | 아이콘아이디 | 레벨 | puuid <br>" + summoner.getSummonerName() + " | " +
+                summoner.getIconId()+" | "+ summoner.getLevel()+" | "+ summoner.getPuUid();
+    }
+
+
+
     @GetMapping("/search/{summonerName}/matchIds")
     public String search(@PathVariable String summonerName) throws IOException {
 
         String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName + "?api_key=" + API_KEY);
 
-        summoner.setSummonerName(summonerName);
-        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
-        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
-        summoner.setPuuid(getSource("puuid", response));
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
 
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
-                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
 
         return response;
     }
@@ -119,45 +140,81 @@ public class GeipBasicController {
 
     @GetMapping("/search/{summonerName}/matchAll")
     public String searchMatchAll(@PathVariable String summonerName) throws IOException {
-        int fromNameToStart = 10850;
+
 
         String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName + "?api_key=" + API_KEY);
 
-        summoner.setSummonerName(summonerName);
-        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
-        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
-        summoner.setPuuid(getSource("puuid", response));
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
 
 
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
-                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
 
         String[] matchId = new String[20];
         extractMatchId(response, matchId);
 
 
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
-                + matchId[0] + "?api_key=" + API_KEY);
+                + matchId[5] + "?api_key=" + API_KEY);
 
         return response;
     }
 
     @GetMapping("/search/{summonerName}/matchOnly")
     public String searchMatchOnly(@PathVariable String summonerName) throws IOException {
-        int fromNameToStart = 10850;
+
 
         String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName + "?api_key=" + API_KEY);
 
-        summoner.setSummonerName(summonerName);
-        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
-        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
-        summoner.setPuuid(getSource("puuid", response));
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
 
 
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
-                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
+
+        String[] matchId = new String[20];
+        extractMatchId(response, matchId);
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
+                + matchId[6] + "?api_key=" + API_KEY);
+        response = response.substring(response.indexOf(summonerName) - NAME_TO_START);
+        log.info("summonerName={}", summonerName);
+        response = response.substring(response.indexOf("assist"));
+        response = response.substring(response.indexOf("assist"), response.indexOf("win")+12);
+
+
+
+//         return getSource("win", response)+" " +getSource("championName", response) +" " +
+//                getSource("championLevel", response)+" " +
+//                getSource("kills", response)+ getSource("deathsByEnemyChamps", response)+" " +
+//                getSource("assist", response);
+
+        return response;
+    }
+    @GetMapping("/search/{summonerName}/matchDetail")
+    public String searchMatchDetail(@PathVariable String summonerName) throws IOException {
+
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
 
         String[] matchId = new String[20];
         extractMatchId(response, matchId);
@@ -165,28 +222,89 @@ public class GeipBasicController {
 
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
                 + matchId[0] + "?api_key=" + API_KEY);
-        response = response.substring(response.indexOf(summonerName) - fromNameToStart);
+        response = response.substring(response.indexOf(summonerName) - NAME_TO_START);
         response = response.substring(response.indexOf("assist"));
         response = response.substring(response.indexOf("assist"), response.indexOf("win")+12);
 
-        return response;
+        //        Match 객체 생성
+//        Match match = new Match(1, getSource("win", response),
+//                getSource("championName", response), getSource("champLevel", response),
+//                getSource("\"kills\"", response), getSource("deaths\"", response),
+//                getSource("assist", response), "1");
+
+
+//        return "승패 | 챔피언이름 | 챔피언레벨 | K/D/A<br>"+match.getWin()+" | "+match.getChampionName()+" | "
+//                +match.getChampLevel() +" | "+match.getKills()+"/"+match.getDeaths()+"/"+ match.getAssist();
+        return "ok";
     }
 
-    @GetMapping("/search/{summonerName}/matchIntro")
-    public String searchMatchIntro(@PathVariable String summonerName) throws IOException {
-        int fromNameToStart = 10850;
+    @GetMapping("/search/{summonerName}/matchList")
+    public String searchMatchList(@PathVariable String summonerName) throws IOException {
+
 
         String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName + "?api_key=" + API_KEY);
 
-        summoner.setSummonerName(summonerName);
-        summoner.setIconId(Integer.parseInt(getSource("profileIconId", response)));
-        summoner.setLevel(Integer.parseInt(getSource("summonerLevel", response)));
-        summoner.setPuuid(getSource("puuid", response));
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
 
 
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
-                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
+
+        String[] matchId = new String[20];
+        extractMatchId(response, matchId);
+
+
+        String result = "승패 | 챔피언이름 | 챔피언레벨 | K/D/A<br>";
+
+        Match[] match = new Match[20];
+        //        Match 객체 생성
+        for(int i=0; i<20; i++){
+            response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
+                    + matchId[i] + "?api_key=" + API_KEY);
+            response = response.substring(response.indexOf(summonerName) - NAME_TO_START);
+            response = response.substring(response.indexOf("assist"));
+            response = response.substring(response.indexOf("assist"), response.indexOf("win")+12);
+
+//            match[i] = new Match(1, getSource("win", response),
+//                    getSource("championName", response), getSource("champLevel", response),
+//                    getSource("\"kills\"", response), getSource("deaths\"", response),
+//                    getSource("assist", response), "1");
+
+            if(match[i].getWin().equals("true"))
+                result += "승리";
+            else
+                result += "패배";
+            result += match[i].getWin() + " | "+match[i].getChampionName()+" | "
+                    +match[i].getChampLevel() +" | "+match[i].getKills()+"/"+match[i].getDeaths()+"/"+
+                    match[i].getAssist() + "<br>";
+        }
+
+
+
+        return result;
+//        return "ok";
+    }
+
+    @GetMapping("/search/{summonerName}/matchIntro")
+    public String searchMatchIntro(@PathVariable String summonerName) throws IOException {
+
+
+
+        String response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName + "?api_key=" + API_KEY);
+
+        summoner = new Summoner(summonerName,
+                Integer.parseInt(getSource("profileIconId", response)),
+                Integer.parseInt(getSource("summonerLevel", response)),
+                getSource("puuid", response));
+
+
+        response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
+                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
 
         String[] matchId = new String[20];
         extractMatchId(response, matchId);
@@ -216,14 +334,17 @@ public class GeipBasicController {
 
     private String getSource(String target, String response) {
         int target_num =response.indexOf(target);
-        if(target=="profileIconId")
-            return response.substring(target_num+15,(response.substring(target_num).indexOf(",")+target_num));
-        else if(target=="summonerLevel" || target == "win")
-            return response.substring(target_num+15,(response.substring(target_num).indexOf("}")+target_num));
-        else if(target=="puuid")
-            return response.substring(target_num+8,(response.substring(target_num).indexOf(",")+target_num-1));
-        else
-            return response.substring(target_num+target.length()+2,(response.substring(target_num).indexOf(",")+target_num-1));
+
+        if(target=="summonerLevel" || target == "win") //데이터 바로뒤에 }가 있고, ,가 없을 경우
+            return response.substring(target_num+target.length()+2,(response.substring(target_num).indexOf("}")+target_num));
+        else if(target == "\"kills\"" || target == "deaths\"")
+            return response.substring(target_num+target.length()+1,(response.substring(target_num).indexOf(",")+target_num));
+        else if(target=="puuid" || target=="championName")    //데이터와 ,사이에 "가 있을 경우
+            return response.substring(target_num+target.length()+3,(response.substring(target_num).indexOf(",")+target_num-1));
+        else if(target=="assist")
+            return response.substring(target_num+target.length()+3,(response.substring(target_num).indexOf(",")+target_num));
+        else    //(target=="profileIconId") //데이터 바로뒤에 ,가 있을 경우
+            return response.substring(target_num+target.length()+2,(response.substring(target_num).indexOf(",")+target_num));
     }
 
     private String getApiDataByURL(String getURL) throws IOException {
