@@ -25,10 +25,12 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}"
+            href="../css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -210,7 +212,7 @@
                                     <th scope="col">K/D/A</th>
                                     <th scope="col">CS(분당cs)</th>
 
-                                    <th scope="col">스펠</th>
+                                    <th scope="col">딜 기여도</th>
                                     <th scope="col">아이템</th>
                                     <th scope="col">팀</th>
                                     <th scope="col">와드</th>
@@ -245,7 +247,7 @@
                                     </td>
                                     <td th:text="${match.cs}">ㅁㅁ%</td>                <!-- 킬관여 -->
 
-                                    <td>ㅁㅁ</td>                 <!-- 스펠 -->
+                                    <td th:text="${match.damagePercent}">ㅁㅁ</td>                 <!-- 딜 기여도 -->
 <!--                                    <td>-->
 <!--                                        <img th:src="${match.item[0]}" style="width: 20px; height: 20px;">-->
 <!--                                        <img th:src="${match.item[1]}" style="width: 20px; height: 20px;">-->

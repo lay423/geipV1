@@ -3,6 +3,7 @@ package hello.geip.web.basic;
 import hello.geip.domain.Match;
 import hello.geip.domain.MatchRepository;
 import hello.geip.domain.Summoner;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class GeipControllerV1 {
 
     private MatchRepository matchRepository;
@@ -26,9 +28,10 @@ public class GeipControllerV1 {
     }
 
     @GetMapping("/searchV1")
-    public String search( Model model) throws IOException {
+    public String search(Model model) throws IOException {
 
-        summoner = search.getSummoner("팡교수");
+
+        summoner = search.getSummoner("hideonbush");
 
         Match[] match = new Match[0];
         try {
@@ -44,10 +47,5 @@ public class GeipControllerV1 {
         model.addAttribute("matches", matches);
         model.addAttribute("summoner", summoner);
         return "basic/search";
-    }
-
-    @GetMapping("/index")
-    public String index(){
-        return "basic/index2";
     }
 }

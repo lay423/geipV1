@@ -17,6 +17,7 @@ public class Match {
     private String deaths;
     private String assist;
     private String wards;
+    private String damagePercent;
     private String[] item;
     private String item1;
     private String item2;
@@ -36,7 +37,7 @@ public class Match {
     private String team10;
 
 
-    public Match(int id, String gameMode, String time, String timeStartToEnd, String win, String championName, String champLevel, String kills, String deaths, String assist, String cs, String wards, String item1, String item2, String item3, String item4, String item5, String item6, String team1, String team2, String team3, String team4, String team5, String team6, String team7, String team8, String team9, String team10) {
+    public Match(int id, String gameMode, String time, String timeStartToEnd, String win, String championName, String champLevel, String kills, String deaths, String assist, String cs, String damagePercent, String wards, String item1, String item2, String item3, String item4, String item5, String item6, String team1, String team2, String team3, String team4, String team5, String team6, String team7, String team8, String team9, String team10) {
         this.id = id;
         this.gameMode = gameMode;
         this.time = time;
@@ -48,6 +49,7 @@ public class Match {
         this.deaths = deaths;
         this.assist = assist;
         this.cs = cs;
+        this.damagePercent = damagePercent;
         this.wards = wards;
         this.item1 = item1;
         this.item2 = item2;
@@ -65,26 +67,5 @@ public class Match {
         this.team8 = team8;
         this.team9 = team9;
         this.team10 = team10;
-    }
-
-
-    private String[] team;
-
-    public Match(int id, String win, String championName, String champLevel, String kills, String deaths, String assist, String wards, String[] item, String[] team) {
-        this.id = id;
-        this.gameMode = gameMode;
-        this.win = win;
-        this.championName = championName;
-        this.champLevel = champLevel;
-        this.kills = kills;
-        this.deaths = deaths;
-        this.assist = assist;
-        this.wards = wards;
-        this.item = item;
-        this.team = team;
-    }
-
-    public int getId() {
-        return id;
     }
 }

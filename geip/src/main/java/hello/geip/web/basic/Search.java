@@ -25,7 +25,8 @@ public class Search {
     URL url;
     HttpURLConnection connection;
 
-    final int NAME_TO_START = 6000;
+    final int NAME_TO_START = 5400;
+//    final int NAME_TO_START = 2100;
     String response;
     public Search() {
 
@@ -33,6 +34,9 @@ public class Search {
 
     public Summoner getSummoner(String summonerName) throws IOException {
 
+        if(summonerName.equals("default.png"))
+            summonerName = "Hide on bush";
+        log.info("이름={}", summonerName);
         response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName.replace(" ", "%20") + "?api_key=" + API_KEY);
 
@@ -56,6 +60,7 @@ public class Search {
         String timeStartTOEnd = null;
         String cs;
         double min = 0;
+        double damagePercent;
 
         //matchId 20개 뽑아오기
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
@@ -68,13 +73,7 @@ public class Search {
                     + matchId[i] + "?api_key=" + API_KEY);
 
             //게임모드 저장
-            gameMode = getSource("gameMode", response);
-            if(gameMode.equals("\"ARAM\""))
-                gameMode="무작위 총력전";
-            else if(gameMode.equals("\"CLASSIC\""))
-                gameMode = "소환사의 협곡";
-            else
-                gameMode = "미정";
+            gameMode = getGameMode();
 
             //타임스탬프
             try {
@@ -107,6 +106,15 @@ public class Search {
             //아이템아이콘 따오기
             getItemIcon(item);
 
+            //팀 데미지 퍼센트 구하기
+            try{
+                damagePercent = Double.parseDouble(getSource("damageTakenOnTeamPercentage", response));
+                damagePercent = Math.round(damagePercent*1000)/10.0;
+            }catch(StringIndexOutOfBoundsException e){
+                damagePercent = 0.0;
+            }
+
+
             //매치정보배열 초기화
             match[i] = new Match(i, gameMode, time, timeStartTOEnd, winLose,
                     "https://ddragon.leagueoflegends.com/cdn/12.18.1/img/champion/" +
@@ -115,16 +123,54 @@ public class Search {
                     getSource("\"kills\"", response),
                     getSource("deaths\"", response),
                     getSource("assist", response),
-                    cs+scPerMinute,
+                    cs+scPerMinute, damagePercent+"%",
                     getSource("wardsPlaced", response),
                     item[0], item[1],item[2],item[3],item[4],item[5],
                     team[0], team[1], team[2], team[3], team[4],
                     team[5], team[6], team[7], team[8], team[9]);
+
             log.info("매치 등록 갯수={}", i);
         }
         //matchId 20개가지고 match20개 뽑아오는 반복문 끝
-
         return match;
+    }
+
+    //게임모드 할당하는 함수
+    private String getGameMode() {
+        String gameMode = getSource("queueId", response);
+        int gameModeInt = Integer.parseInt(gameMode);
+        if(gameModeInt==400)
+            gameMode = "일반교차선택";
+        else if(gameModeInt==420)
+            gameMode = "솔랭";
+        else if(gameModeInt==430)
+            gameMode = "일반";
+        else if(gameModeInt==440)
+            gameMode = "자유랭크";
+        else if(gameModeInt==450)
+            gameMode = "무작위총력전";
+        else if(gameModeInt==700)
+            gameMode = "clash";
+        else if(gameModeInt==800)
+            gameMode = "입문";
+        else if(gameModeInt==810)
+            gameMode = "초보";
+        else if(gameModeInt==820)
+            gameMode = "중급";
+        else if(gameModeInt==830)
+            gameMode = "ai830";
+        else if(gameModeInt==840)
+            gameMode = "ai840";
+        else if(gameModeInt==850)
+            gameMode = "ai850";
+        else if(gameModeInt==900)
+            gameMode = "URF";
+        else if(gameModeInt>=2000)
+            gameMode = "튜토리얼";
+        else
+            gameMode = "미정";
+
+        return gameMode;
     }
 
 
@@ -204,7 +250,7 @@ public class Search {
         for(int j = 0; j< item.length; j++){
             String itemNum = getSource("item"+j, response);
             if(itemNum.equals("0"))
-                item[j] = null;
+                item[j] = "default.png";
             else
                 item[j] = "https://ddragon.leagueoflegends.com/cdn/12.18.1/img/item/" +
                     itemNum + ".png";
@@ -215,7 +261,13 @@ public class Search {
     private void extractOnlyMatch(String matchId) throws IOException {
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
                 + matchId + "?api_key=" + API_KEY);
-        response = response.substring(response.indexOf(summoner.getSummonerName()) - NAME_TO_START);
+        try{
+            response = response.substring(response.indexOf(summoner.getSummonerName()) - NAME_TO_START);
+        } catch (StringIndexOutOfBoundsException e){
+            //response = response.substring(response.indexOf(summoner.getSummonerName()) - NAME_TO_START);
+            log.info("지안오류발생-튜토리얼게임");
+        }
+
         response = response.substring(response.indexOf("assist"));
         response = response.substring(response.indexOf("assist"), response.indexOf("win")+12);
     }
@@ -225,8 +277,13 @@ public class Search {
         int target_num;
         for(int j = 0; j< team.length; j++){
             target_num = response.indexOf("championName");
-            team[j] = "https://ddragon.leagueoflegends.com/cdn/12.18.1/img/champion/" +
-                    getSource("championName", response) + ".png";;
+            try{
+                team[j] = "https://ddragon.leagueoflegends.com/cdn/12.18.1/img/champion/" +
+                        getSource("championName", response) + ".png";;
+            }catch (StringIndexOutOfBoundsException e){
+                team[j] = "";
+            }
+
             response = response.substring(target_num+"championName".length()+3);
         }
     }
@@ -249,7 +306,7 @@ public class Search {
         return stringBuffer.toString();
     }
 
-    //response 문자열에서 targer 문자열에 해당하는 데이터를 반환
+    //response 문자열에서 target 문자열에 해당하는 데이터를 반환
     private String getSource(String target, String response) {
         int target_num =response.indexOf(target);
 
