@@ -10,4 +10,6 @@ public class GeipApplication {
 		SpringApplication.run(GeipApplication.class, args);
 	}
 
+
+
 }
