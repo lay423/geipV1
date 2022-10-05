@@ -1,4 +1,4 @@
-package hello.geip.domain;
+package hello.geip.domain.hjh;
 
 import lombok.Getter;
 
