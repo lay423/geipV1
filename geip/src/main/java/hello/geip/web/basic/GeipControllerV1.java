@@ -1,14 +1,13 @@
 package hello.geip.web.basic;
 
-import hello.geip.domain.Match;
-import hello.geip.domain.MatchRepository;
-import hello.geip.domain.Summoner;
+import hello.geip.domain.hjh.Match;
+import hello.geip.domain.hjh.MatchRepository;
+import hello.geip.domain.hjh.Summoner;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -27,11 +26,11 @@ public class GeipControllerV1 {
         this.matchRepository = matchRepository;
     }
 
-    @GetMapping("{summonerName}")
-    public String search(@PathVariable String summonerName, Model model) throws IOException {
+    @GetMapping("searchV1")
+    public String search(Model model) throws IOException {
 
 
-        summoner = search.getSummoner(summonerName);
+        summoner = search.getSummoner("hideonbush");
 
         Match[] match = new Match[0];
         try {
