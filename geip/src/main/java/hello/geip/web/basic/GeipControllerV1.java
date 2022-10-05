@@ -27,11 +27,11 @@ public class GeipControllerV1 {
         this.matchRepository = matchRepository;
     }
 
-    @GetMapping("/searchV1")
-    public String search(Model model) throws IOException {
+    @GetMapping("{summonerName}")
+    public String search(@PathVariable String summonerName, Model model) throws IOException {
 
 
-        summoner = search.getSummoner("hideonbush");
+        summoner = search.getSummoner(summonerName);
 
         Match[] match = new Match[0];
         try {
@@ -47,5 +47,17 @@ public class GeipControllerV1 {
         model.addAttribute("matches", matches);
         model.addAttribute("summoner", summoner);
         return "basic/search";
+    }
+
+    @GetMapping("/main")
+    public String main(){
+
+        return "basic/main";
+    }
+
+    @GetMapping("/index")
+    public String index(){
+
+        return "index";
     }
 }
