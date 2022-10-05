@@ -1,10 +1,8 @@
 package hello.geip.web.basic;
 
 import hello.geip.domain.Match;
-import hello.geip.domain.MatchRepository;
 import hello.geip.domain.Summoner;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +23,7 @@ public class Search {
     URL url;
     HttpURLConnection connection;
 
-    final int NAME_TO_START = 5400;
+    final int NAME_TO_START = 6000;
 //    final int NAME_TO_START = 2100;
     String response;
     public Search() {
@@ -34,8 +32,7 @@ public class Search {
 
     public Summoner getSummoner(String summonerName) throws IOException {
 
-        if(summonerName.equals("default.png"))
-            summonerName = "Hide on bush";
+
         log.info("이름={}", summonerName);
         response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName.replace(" ", "%20") + "?api_key=" + API_KEY);
@@ -86,6 +83,7 @@ public class Search {
 
             //팀 초상화 따오기
             getTeamIcon(team);
+
 
             //전체 매치정보에서 한사람 분량의 매치정보만 가져오기
             extractOnlyMatch(matchId[i]);
