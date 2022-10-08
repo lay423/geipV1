@@ -1,4 +1,4 @@
-package hello.geip.domain.hjh;
+package hello.geip.domain;
 
 import org.springframework.stereotype.Repository;
 
