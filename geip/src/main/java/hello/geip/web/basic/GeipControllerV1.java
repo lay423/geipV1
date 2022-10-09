@@ -33,7 +33,7 @@ public class GeipControllerV1 {
 
         summoner = search.getSummoner(name);
 
-        Match[] match = new Match[0];
+        Match[] match;
         try {
             match = search.getMatchArr();
         } catch (ParseException e) {
