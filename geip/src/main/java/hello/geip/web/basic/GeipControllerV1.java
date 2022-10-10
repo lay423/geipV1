@@ -3,7 +3,6 @@ package hello.geip.web.basic;
 import hello.geip.domain.Match;
 import hello.geip.domain.MatchRepository;
 import hello.geip.domain.Summoner;
-import hello.geip.web.basic.search.Search;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
