@@ -27,6 +27,10 @@ public class KJYController {
     public String multiSearch(@ModelAttribute("multiSearchDto") MultiSearchDto multiSearchDto, Model model) throws JsonProcessingException {
         String userNicknames = multiSearchDto.getGameNicknames();
         List<TeamBuildingRiotApiDTO> teamBuildingRiotApiDTOS = riotApiService.teamBuildingSearchSummoner(userNicknames);
+        for (TeamBuildingRiotApiDTO teamBuildingRiotApiDTO : teamBuildingRiotApiDTOS){
+            System.out.println(teamBuildingRiotApiDTO);
+        }
+
         model.addAttribute("multiSearchList", teamBuildingRiotApiDTOS);
         return "teambuild/teamBuilding";
     }

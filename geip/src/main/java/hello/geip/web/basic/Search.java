@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-//import static hello.geip.web.basic.Key.API_KEY;
+import static hello.geip.web.basic.Key.API_KEY;
 
 @Slf4j
 public class Search {
