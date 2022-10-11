@@ -1,8 +1,13 @@
 package hello.geip.web.basic;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.internal.function.numeric.Sum;
 import hello.geip.domain.Match;
 import hello.geip.domain.Summoner;
+import hello.geip.dto.SummonerDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-//import static hello.geip.web.basic.Key.API_KEY;
+import static hello.geip.web.basic.Key.API_KEY;
 
 @Slf4j
 public class Search {
@@ -30,6 +35,22 @@ public class Search {
 
     }
 
+    public Summoner getSummonerV1(String summonerName) throws JsonProcessingException {
+
+        String testSummonerUrl = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
+                + summonerName.replace(" ", "%20") + "?api_key=" + API_KEY;
+
+        String leagueResult = WebClient.create(testSummonerUrl)
+                .get()
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        ObjectMapper mapper = new ObjectMapper();
+        summoner = mapper.readValue(leagueResult, Summoner.class);
+
+        return summoner;
+    }
     public Summoner getSummoner(String summonerName) throws IOException {
 
 
@@ -41,7 +62,6 @@ public class Search {
                 Integer.parseInt(getSource("profileIconId", response)),
                 Integer.parseInt(getSource("summonerLevel", response)),
                 getSource("puuid", response));
-
         return summoner;
     }
 
@@ -61,7 +81,7 @@ public class Search {
 
         //matchId 20개 뽑아오기
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/"
-                + summoner.getPuUid() + "/ids?api_key=" + API_KEY);
+                + summoner.getPuuid() + "/ids?api_key=" + API_KEY);
         extractMatchId(response, matchId);
 
         //matchId 20개가지고 match20개 뽑아오는 반복문 시작
@@ -260,7 +280,7 @@ public class Search {
         response = getApiDataByURL("https://asia.api.riotgames.com/lol/match/v5/matches/"
                 + matchId + "?api_key=" + API_KEY);
         try{
-            response = response.substring(response.indexOf(summoner.getSummonerName()) - NAME_TO_START);
+            response = response.substring(response.indexOf(summoner.getName()) - NAME_TO_START);
         } catch (StringIndexOutOfBoundsException e){
             //response = response.substring(response.indexOf(summoner.getSummonerName()) - NAME_TO_START);
             log.info("지안오류발생-튜토리얼게임");
@@ -312,7 +332,7 @@ public class Search {
             return response.substring(target_num+target.length()+2,(response.substring(target_num).indexOf("}")+target_num));
         else if(target == "\"kills\"" || target == "deaths\"")
             return response.substring(target_num+target.length()+1,(response.substring(target_num).indexOf(",")+target_num));
-        else if(target=="puuid" || target=="championName")    //데이터와 ,사이에 "가 있을 경우
+        else if(target=="puuid" || target=="championName" || target=="id")    //데이터와 ,사이에 "가 있을 경우
             return response.substring(target_num+target.length()+3,(response.substring(target_num).indexOf(",")+target_num-1));
         else if(target=="assist")
             return response.substring(target_num+target.length()+3,(response.substring(target_num).indexOf(",")+target_num));
