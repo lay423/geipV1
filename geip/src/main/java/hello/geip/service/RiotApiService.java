@@ -46,13 +46,27 @@ public class RiotApiService {
         List<LeagueEntryDTO> leagueEntryDTOS = Arrays.asList(mapper.readValue(leagueResult, LeagueEntryDTO[].class));
         LeagueEntryDTO leagueEntryDTO = new LeagueEntryDTO();
 
-        if(leagueEntryDTOS.size() == 1){
-            leagueEntryDTO = leagueEntryDTOS.get(0);
-        } else if(leagueEntryDTOS.size() == 2 ){
-            if(leagueEntryDTOS.get(0).getQueueType().equals("RANKED_SOLO_5x5"))
-                leagueEntryDTO = leagueEntryDTOS.get(0);
-            else
-                leagueEntryDTO = leagueEntryDTOS.get(1);
+        if(leagueEntryDTOS.size() == 0){
+            leagueEntryDTO.setSummonerName(summonerDTO.getName());
+            leagueEntryDTO.setRank("UNRANKED");
+            leagueEntryDTO.setTier("");
+            leagueEntryDTO.setWins(0);
+            leagueEntryDTO.setLosses(0);
+
+        }else{
+            for(int i = 0; i < leagueEntryDTOS.size(); i++){
+                if(leagueEntryDTOS.get(i).getQueueType().equals("RANKED_SOLO_5x5")){
+                    leagueEntryDTO = leagueEntryDTOS.get(i);
+                    break;
+                }else{
+                    leagueEntryDTO.setSummonerName(summonerDTO.getName());
+                    leagueEntryDTO.setRank("UNRANKED");
+                    leagueEntryDTO.setTier("");
+                    leagueEntryDTO.setWins(0);
+                    leagueEntryDTO.setLosses(0);
+                    break;
+                }
+            }
         }
 
         return MainSummonerDTO.builder()
@@ -71,6 +85,10 @@ public class RiotApiService {
     public List<TeamBuildingRiotApiDTO> teamBuildingSearchSummoner(String names) throws JsonProcessingException {
         List<String> gameNickname = Arrays.asList(names.split(","));
 
+        for(String name : gameNickname){
+            System.out.println("name : " + name);
+        }
+
         List<TeamBuildingRiotApiDTO> teamBuildingRiotApiDTOS = new ArrayList<>();
         for(String name : gameNickname){
             String summonerURL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + apiKey;
@@ -82,6 +100,7 @@ public class RiotApiService {
 
             ObjectMapper mapper = new ObjectMapper();
             SummonerDTO summonerDTO = mapper.readValue(summonerResult, SummonerDTO.class);
+            System.out.println(summonerDTO.toString());
 
             String leagueURL = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerDTO.getId() + "?api_key=" + apiKey;
 
@@ -91,19 +110,35 @@ public class RiotApiService {
                     .bodyToMono(String.class)
                     .block();
 
+            System.out.println(leagueResult);
+
 
             List<LeagueEntryDTO> leagueEntryDTOS = Arrays.asList(mapper.readValue(leagueResult, LeagueEntryDTO[].class));
             LeagueEntryDTO leagueEntryDTO = new LeagueEntryDTO();
+            System.out.println(leagueEntryDTOS.size());
 
-            if(leagueEntryDTOS.size() == 1){
-                leagueEntryDTO = leagueEntryDTOS.get(0);
-            } else if(leagueEntryDTOS.size() == 2 ){
-                if(leagueEntryDTOS.get(0).getQueueType().equals("RANKED_SOLO_5x5"))
-                    leagueEntryDTO = leagueEntryDTOS.get(0);
-                else
-                    leagueEntryDTO = leagueEntryDTOS.get(1);
+            if(leagueEntryDTOS.size() == 0){
+                leagueEntryDTO.setSummonerName(summonerDTO.getName());
+                leagueEntryDTO.setRank("UNRANKED");
+                leagueEntryDTO.setTier("");
+                leagueEntryDTO.setWins(0);
+                leagueEntryDTO.setLosses(0);
+
+            }else{
+                for(int i = 0; i < leagueEntryDTOS.size(); i++){
+                    if(leagueEntryDTOS.get(i).getQueueType().equals("RANKED_SOLO_5x5")){
+                        leagueEntryDTO = leagueEntryDTOS.get(i);
+                        break;
+                    }else{
+                        leagueEntryDTO.setSummonerName(summonerDTO.getName());
+                        leagueEntryDTO.setRank("UNRANKED");
+                        leagueEntryDTO.setTier("");
+                        leagueEntryDTO.setWins(0);
+                        leagueEntryDTO.setLosses(0);
+                        break;
+                    }
+                }
             }
-
             TeamBuildingRiotApiDTO teamBuildingRiotApiDTO = TeamBuildingRiotApiDTO.builder()
                     .leagueEntryDTO(leagueEntryDTO)
                     .build();
@@ -149,6 +184,9 @@ public class RiotApiService {
                     break;
                 case "IRON":
                     point = 1;
+                    break;
+                case "UNRANKED":
+                    point = 0;
                     break;
             }
             RecommendTeamBuildingDto recommendTeamBuildingDto = RecommendTeamBuildingDto.builder()
