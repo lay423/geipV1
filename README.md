@@ -1,5 +1,13 @@
 # geipV1
 
+### 10.16
+- HTML 수정
+  1. sidebar 필요없는 기능 삭제 + 이름 변경
+  2. 각 sidebar 누르면 연결되도록
+  3. index는 구현아직 안됨
+  4. 팀추천, 팀빌딩 페이지는 아직 커밋 안함(충돌날까봐 html수정해주면 그때 올릴계획)
+- domain[Summoner, Match] -> dto로 변경, Summoner는 삭제
+
 ### 10.10
 - 내전 팀 기능 및 추천 기능 수정
 
