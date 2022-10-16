@@ -16,4 +16,11 @@ public class SummonerDTO {
     private String id;
     private String puuid;
     private long summonerLevel;
+
+    public SummonerDTO(String summonerName, int iconId, int level, String puuid) {
+        this.name = summonerName;
+        this.profileIconId = iconId;
+        this.summonerLevel = level;
+        this.puuid = puuid;
+    }
 }

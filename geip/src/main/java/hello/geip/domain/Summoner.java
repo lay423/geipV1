@@ -2,31 +2,38 @@ package hello.geip.domain;
 
 public class Summoner {
 
-    private String summonerName;
-    private int iconId;
-    private int level;
-    private String puUid;
+    private String name;
+    private int profileIconId;
+    private int summonerLevel;
+    private String puuid;
+
+    private String accountId;
+    private long revisionDate;
+    private String id;
+
+    public Summoner() {
+    }
 
     public Summoner(String summonerName, int iconId, int level, String puuid) {
-        this.summonerName = summonerName;
-        this.iconId = iconId;
-        this.level = level;
-        this.puUid = puuid;
+        this.name = summonerName;
+        this.profileIconId = iconId;
+        this.summonerLevel = level;
+        this.puuid = puuid;
     }
-    public String getPuUid() {
-        return puUid;
-    }
-
-    public String getSummonerName() {
-        return summonerName;
+    public String getPuuid() {
+        return puuid;
     }
 
-    public int getIconId() {
-        return iconId;
+    public String getName() {
+        return name;
     }
 
-    public int getLevel() {
-        return level;
+    public int getProfileIconId() {
+        return profileIconId;
+    }
+
+    public int getSummonerLevel() {
+        return summonerLevel;
     }
 
 

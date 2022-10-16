@@ -1,4 +1,4 @@
-package hello.geip.domain;
+package hello.geip.dto;
 
 import org.springframework.stereotype.Repository;
 
@@ -9,18 +9,18 @@ import java.util.Map;
 
 @Repository
 public class MatchRepository {
-    private static final Map<Integer, Match> store = new HashMap<>();
+    private static final Map<Integer, MatchDto> store = new HashMap<>();
 
-    public Match save(Match match) {
-        store.put(match.getId(), match);
-        return match;
+    public MatchDto save(MatchDto matchDto) {
+        store.put(matchDto.getId(), matchDto);
+        return matchDto;
     }
 
-    public Match findById(int id) {
+    public MatchDto findById(int id) {
         return store.get(id);
     }
 
-    public List<Match> findAll() {
+    public List<MatchDto> findAll() {
         return new ArrayList<>(store.values());
     }
 

@@ -1,8 +1,9 @@
 package hello.geip.web.basic;
 
-import hello.geip.domain.Match;
-import hello.geip.domain.MatchRepository;
+import hello.geip.dto.MatchDto;
+import hello.geip.dto.MatchRepository;
 import hello.geip.domain.Summoner;
+import hello.geip.dto.SummonerDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,7 @@ public class GeipControllerV1 {
 
     private MatchRepository matchRepository;
     Search search = new Search();
-    Summoner summoner;
-
+    SummonerDTO summonerDTO;
     @Autowired
     public GeipControllerV1(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;
@@ -32,25 +32,30 @@ public class GeipControllerV1 {
         return "basic/searchBar";
     }
 
-    @GetMapping("searchV1")
+    @GetMapping("index")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("search")
     public String search(@RequestParam String name, Model model) throws IOException {
 
 
-        summoner = search.getSummoner(name);
+        summonerDTO = search.getSummoner(name);
 
-        Match[] match;
+        MatchDto[] matchDtos;
         try {
-            match = search.getMatchArr();
+            matchDtos = search.getMatchArr();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
         for(int i=0; i<20; i++)
-            matchRepository.save(match[i]);
+            matchRepository.save(matchDtos[i]);
 
-        List<Match> matches = matchRepository.findAll();
-        model.addAttribute("matches", matches);
-        model.addAttribute("summoner", summoner);
+        List<MatchDto> listMatchDtos = matchRepository.findAll();
+        model.addAttribute("matches", listMatchDtos);
+        model.addAttribute("summoner", summonerDTO);
         return "basic/search";
     }
 }
