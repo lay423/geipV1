@@ -1,5 +1,6 @@
-package hello.geip.dto;
+package hello.geip.dao;
 
+import hello.geip.domain.Match;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,18 +10,18 @@ import java.util.Map;
 
 @Repository
 public class MatchRepository {
-    private static final Map<Integer, MatchDto> store = new HashMap<>();
+    private static final Map<Integer, Match> store = new HashMap<>();
 
-    public MatchDto save(MatchDto matchDto) {
-        store.put(matchDto.getId(), matchDto);
-        return matchDto;
+    public Match save(Match match) {
+        store.put(match.getId(), match);
+        return match;
     }
 
-    public MatchDto findById(int id) {
+    public Match findById(int id) {
         return store.get(id);
     }
 
-    public List<MatchDto> findAll() {
+    public List<Match> findAll() {
         return new ArrayList<>(store.values());
     }
 

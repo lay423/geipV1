@@ -1,9 +1,10 @@
-package hello.geip.dto;
+package hello.geip.domain;
 
 import lombok.Getter;
 
 @Getter
-public class MatchDto {
+public class Match {
+    private String Match_id;
     private String cs;
     private int id;
     private String gameMode;
@@ -36,8 +37,11 @@ public class MatchDto {
     private String team9;
     private String team10;
 
+    public Match() {
+    }
 
-    public MatchDto(int id, String gameMode, String time, String timeStartToEnd, String win, String championName, String champLevel, String kills, String deaths, String assist, String cs, String damagePercent, String wards, String item1, String item2, String item3, String item4, String item5, String item6, String team1, String team2, String team3, String team4, String team5, String team6, String team7, String team8, String team9, String team10) {
+    public Match(int id, String gameMode, String time, String timeStartToEnd, String win, String championName, String champLevel, String kills, String deaths, String assist, String cs, String damagePercent, String wards, String item1, String item2, String item3, String item4, String item5, String item6, String team1, String team2, String team3, String team4, String team5, String team6, String team7, String team8, String team9, String team10) {
+        this.Match_id = Match_id;
         this.id = id;
         this.gameMode = gameMode;
         this.time = time;
