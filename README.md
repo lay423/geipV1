@@ -1,5 +1,11 @@
 # geipV1
 
+### 10.19
+- MatchDB 연동 -> 검색, Api -> 전적 새로고침
+  1. Match 다시 domain으로
+  2. MatchDao 에서 DB 관련 로직처리
+  3. 기존의 API에서 데이터 받아오는건 새로고침 할때만 실행
+
 ### 10.16
 - HTML 수정
   1. sidebar 필요없는 기능 삭제 + 이름 변경
