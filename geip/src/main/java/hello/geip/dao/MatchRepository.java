@@ -1,5 +1,6 @@
-package hello.geip.domain.hjh;
+package hello.geip.dao;
 
+import hello.geip.domain.Match;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

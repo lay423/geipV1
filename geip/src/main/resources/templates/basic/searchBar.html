@@ -14,8 +14,8 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
-    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -30,7 +30,7 @@
 
     <!-- Template Stylesheet -->
     <link th:href="@{/css/style.css}"
-            href="../css/style.css" rel="stylesheet">
+          href="../css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -42,7 +42,6 @@
             </div>
         </div>
         <!-- Spinner End -->
-
 
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
@@ -56,18 +55,19 @@
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0" th:text="${summoner.name}">도 sdf</h6>
+                        <h6 class="mb-0" >  <!--th:text="${summoner.name}"-->
+                                                  소환사A</h6>
                         <span>Admin</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="searchBar" class="nav-item nav-link active"><i class="fa fa-laptop me-2"></i>전적 검색</a>
+                    <a href="/searchBar" class="nav-item nav-link active"><i class="fa fa-laptop me-2"></i>전적 검색</a>
                     <a href="/teamBuilding" class="nav-item nav-link"><i class="fa fa-table me-2"></i>내전 팀 빌딩</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>내전 전적 보기</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>계정 설정</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" id="name" class="dropdown-item">롤 닉네임 설정</a>
+                            <a href="signin.html" class="dropdown-item">롤 닉네임 설정</a>
                             <a href="signup.html" class="dropdown-item">로그인</a>
                             <a href="404.html" class="dropdown-item">로그아웃</a>
                             <a href="blank.html" class="dropdown-item">Settings</a>
@@ -81,6 +81,7 @@
 
         <!-- Content Start -->
         <div class="content">
+
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
@@ -95,7 +96,7 @@
                             class="btn btn-primary ms-2"
                             style="width:100px;"
                             onClick="var anText_sub1 = document.getElementById('q').value;
-                                    location.href='search?name='+anText_sub1">검색</button>
+                                        location.href='search?name='+anText_sub1">검색</button>
                 </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
@@ -164,7 +165,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="http://ddragon.leagueoflegends.com/cdn/10.11.1/img/profileicon/2074.png" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex"><font th:text="${summoner.name}"> 존도</font></span>
+                            <span class="d-none d-lg-inline-flex"><font> 존도</font></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="/saveorupdate" class="dropdown-item">롤 닉 등록, 변경</a>
@@ -177,141 +178,29 @@
             <!-- Navbar End -->
 
 
-            <!-- Sale & Revenue Start -->
-
-            <!-- Sale & Revenue End -->
-
-
-            <!-- Sales Chart Start -->
-
-            <!-- Sales Chart End -->
-            <script>
-                /*<![CDATA[*/
-                function btnClick(){
-                    var anText_sub1 = document.getElementById('n').value;
-                    location.href='getApi?name='+anText_sub1
-
-                }
-                /*]]>*/
-            </script>
-
-            <!-- Recent Sales Start -->
+            <!-- searchBar Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Recent Plays</h6>
-                        <input class="form-control bg-dark border-0" type="search" id="n" placeholder="Search" style="width:100px">
+                    <form class="d-none d-md-flex ms-4">
+                        <input class="form-control bg-dark border-0"
+                               type="search"
+                               id="p"
+                               placeholder="Search">
                         <button type="button"
                                 class="btn btn-primary ms-2"
                                 style="width:100px;"
-                                onClick="btnClick()">새로고침</button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-white">
-<!--                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>-->
-                                    <th scope="col">승패</th>
-                                    <th scope="col">게임타입</th>
-                                    <th scope="col">플레이시간</th>
-
-                                    <th scope="col">챔피언 | 레벨</th>
-                                    <th scope="col">K/D/A</th>
-                                    <th scope="col">CS(분당cs)</th>
-
-                                    <th scope="col">딜 기여도</th>
-                                    <th scope="col">아이템</th>
-                                    <th scope="col">팀</th>
-                                    <th scope="col">와드</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr th:each="matchDao : ${matches}">
-                                    <td th:text="${matchDao.win}">01 Jan 2045</td>     <!-- 승패 -->
-                                    <td th:text="${matchDao.gameMode}">GameType</td>            <!-- 게임타입 -->
-                                    <td >
-                                        <text th:text="${matchDao.time}"></text>
-                                        <br>
-                                        <text th:text="${matchDao.timeStartToEnd}"></text>
-                                    </td>       <!-- 시간 -->
-
-                                    <td ><img class="rounded-circle"
-                                              th:src="${matchDao.championName}"
-                                              alt="" style="width: 40px; height: 40px;">
-                                        <span th:text="${matchDao.champLevel}">18</span></td>       <!-- 챔이름 -->
-
-                                    <td>
-                                        <font th:text="${matchDao.kills}">kill</font>  <!-- 킬 -->
-                                        <font>/</font>
-                                        <font th:text="${matchDao.deaths}">death</font>    <!-- 데스 -->
-                                        <font>/</font>
-                                        <font th:text="${matchDao.assist}">assist</font>   <!-- 어시 -->
-                                    </td>
-                                    <td th:text="${matchDao.cs}">ㅁㅁ%</td>                <!-- 킬관여 -->
-
-                                    <td th:text="${matchDao.damagePercent}">ㅁㅁ</td>                 <!-- 딜 기여도 -->
-                                    <td>
-                                        <img th:src="${matchDao.item1}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.item2}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.item3}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.item4}" style="width: 20px; height: 20px;">
-                                        <br>
-                                        <img th:src="${matchDao.item5}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.item6}" style="width: 20px; height: 20px;">
-                                    </td>                 <!-- 아이템 -->
-                                    <td>
-                                        <img th:src="${matchDao.team1}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team2}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team3}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team4}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team5}" style="width: 20px; height: 20px;">
-                                        <br>
-                                        <img th:src="${matchDao.team6}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team7}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team8}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team9}" style="width: 20px; height: 20px;">
-                                        <img th:src="${matchDao.team10}" style="width: 20px; height: 20px;">
-                                    </td>       <!-- 팀 -->
-                                    <td th:text="${matchDao.wards}">ㅁ개</td>                 <!-- 와드 -->
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                onClick="var anText_sub1 = document.getElementById('p').value;
+                                        location.href='search?name='+anText_sub1">검색</button>
+                    </form>
                 </div>
             </div>
-            <!-- Recent Sales End -->
+            <!-- searchBar End -->
 
-
-            <!-- Widgets Start -->
-
-            <!-- Widgets End -->
-
-
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer End -->
         </div>
         <!-- Content End -->
 
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -324,9 +213,5 @@
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
-
 </body>
-
-</html>
