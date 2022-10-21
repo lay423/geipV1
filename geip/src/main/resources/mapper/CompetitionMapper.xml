@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTDMapper3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hello.geip.mapper.CompetitionMapper">
+
+    <select id="getCompetitionList" resultType="hello.geip.bean.CompetitionVo">
+        SELECT distinct competition_name
+        FROM competition a
+        WHERE a.competition_name
+        IN (SELECT b.competition_name FROM competition b WHERE lol_nick = 'kdk') and a.win_lose = 'w'
+        ORDER BY competition_name ASC
+    </select>
+
+</mapper>
