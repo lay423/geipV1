@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class RiotApiService {
 
 //    @Value("${RiotApiKey}")
-    private String apiKey = "";
+    private String apiKey = "RGAPI-310f041c-991b-4e44-9a7e-a220b5dc9679";
 
     @Transactional
     public MainSummonerDTO SearchSummonerName(String name) throws JsonProcessingException {
@@ -128,13 +128,6 @@ public class RiotApiService {
                 for(int i = 0; i < leagueEntryDTOS.size(); i++){
                     if(leagueEntryDTOS.get(i).getQueueType().equals("RANKED_SOLO_5x5")){
                         leagueEntryDTO = leagueEntryDTOS.get(i);
-                        break;
-                    }else{
-                        leagueEntryDTO.setSummonerName(summonerDTO.getName());
-                        leagueEntryDTO.setRank("UNRANKED");
-                        leagueEntryDTO.setTier("");
-                        leagueEntryDTO.setWins(0);
-                        leagueEntryDTO.setLosses(0);
                         break;
                     }
                 }

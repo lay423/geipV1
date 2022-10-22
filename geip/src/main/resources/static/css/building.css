@@ -2,13 +2,15 @@
     font-family: "Trebuchet MS", sans-serif;
     display: flex;
     gap: 30px;
+    justify-content: space-evenly;
 }
 .column {
     flex-basis: 20%;
-    background: #000000;
+    background: #191C24;
     min-height: 60vh;
     padding: 5px;
     border-radius: 10px;
+    column-count: auto;
 }
 .column h1 {
     text-align: center;
