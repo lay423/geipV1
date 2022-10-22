@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class RiotApiService {
 
 //    @Value("${RiotApiKey}")
-    private String apiKey = "RGAPI-310f041c-991b-4e44-9a7e-a220b5dc9679";
+    private String apiKey = "";
 
     @Transactional
     public MainSummonerDTO SearchSummonerName(String name) throws JsonProcessingException {
