@@ -129,13 +129,6 @@ public class RiotApiService {
                     if(leagueEntryDTOS.get(i).getQueueType().equals("RANKED_SOLO_5x5")){
                         leagueEntryDTO = leagueEntryDTOS.get(i);
                         break;
-                    }else{
-                        leagueEntryDTO.setSummonerName(summonerDTO.getName());
-                        leagueEntryDTO.setRank("UNRANKED");
-                        leagueEntryDTO.setTier("");
-                        leagueEntryDTO.setWins(0);
-                        leagueEntryDTO.setLosses(0);
-                        break;
                     }
                 }
             }
