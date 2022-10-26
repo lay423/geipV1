@@ -193,10 +193,11 @@
                             <label for="floatingText">소환사 멀티 서치 : ,로 구분해주세요.</label>
                         </div>
                         <button type="submit" class="btn btn-primary">검색</button>
-                        <!--                            <button th:href="@{/recommendTB}" type="button" class="btn btn-primary py-3 w-100 mb-4">내전 팀 추천</button>-->
                         <a  class="btn btn-primary" th:href="@{/recommendTB}" type="button">내전 팀 추천</a>
-
                         <button id="btn-save" type="button" class="btn btn-primary">저장</button>
+                        <div class="team-build">
+                            <label for="NameText">내전 이름 </label><input type="text" class="form-control bg-secondary" id="NameText">
+                        </div>
                     </form>
                     <div class="container">
                         <div class="column" id="team_red">

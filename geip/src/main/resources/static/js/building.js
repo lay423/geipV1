@@ -12,6 +12,7 @@ columns.forEach((column) => {
         console.log('username', e.currentTarget.querySelector(".username").textContent);
         console.log('rank', e.currentTarget.querySelector(".rank").textContent);
         console.log('target', e.currentTarget.closest('div').getAttribute("id"));
+        console.log("내전 이름 : ",$('#NameText').val());
     });
 });
 
@@ -20,8 +21,12 @@ var main={
         var _this = this;
 
         $('#btn-save').on('click', function (){
+            var group = {};
             var _team_array = [];
             var team = {};
+            var _war_name = document.getElementById('NameText').value;
+            //_team_array.push({"war_name": _war_name});
+            group.groupname = _war_name;
 
             $('div.container div').each(function(index, item) {
                 if(item.className == "column" && item.id.length > 0) {
@@ -38,24 +43,28 @@ var main={
                 }
             });
 
-            _this.save(_team_array);
+            group.teams = _team_array;
+            _this.save(group);
+            //_this.save(_team_array);
         })
     },
-    save : function (_team_array){
-        console.log(_team_array);
+    //save : function (_team_array){
+    save : function (group){
+        console.log(group);
         $.ajax({
             type: 'POST',
             url: '/api/teambuilding',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(_team_array)
+            //data: JSON.stringify(_team_array)
+            data: JSON.stringify(group)
         }).done(function (){
             alert('저장되었습니다.')
         }).fail(function (error){
             alert(JSON.stringify(error));
         })
-
     }
+
 }
 
 main.init();

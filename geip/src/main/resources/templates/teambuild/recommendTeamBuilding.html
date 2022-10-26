@@ -183,7 +183,7 @@
 
         <!-- Blank Start -->
         <div class="container-fluid pt-4 px-4">
-            <div class="row vh-100 bg-secondary rounded align-items-center justify-content-center mx-0">
+            <div class="row vh-100 bg-dark rounded align-items-center justify-content-center mx-0">
                 <div class="col-md-6 text-center">
                     <h1>내전 팀 짜기</h1>
                     <form th:action="@{/recommendTeamBuilding}" th:object="${multiSearchDto}" method="post">
@@ -191,7 +191,11 @@
                             <input type="text" class="form-control" id="floatingText" th:field="*{gameNicknames}" >
                             <label for="floatingText">소환사 멀티 서치 : ,로 구분해주세요.</label>
                         </div>
-                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">검색</button>
+                        <button type="submit" class="btn btn-primary">검색</button>
+                        <button id="btn-save" type="button" class="btn btn-primary">저장</button>
+                        <div class="team-build">
+                            <label for="NameText">내전 이름 </label><input type="text" class="form-control bg-secondary" id="NameText">
+                        </div>
                     </form>
                     <div class="container">
                         <div class="column" id="team_red">
@@ -207,7 +211,7 @@
                             <div class="list-group-item" draggable="true"  th:each="blueTeam : ${blueTeam}" ><span class="username" th:text="${blueTeam.name}"></span><br><span class="rank" th:text="|${blueTeam.tier} ${blueTeam.rank}|"></span><br><span th:text="|승: ${blueTeam.wins} 패:${blueTeam.losses}|"></span></div>
                         </div>
                     </div>
-                    <button id="btn-save" type="button" class="btn btn-primary py-3 w-100 mb-4">저장</button>
+
                 </div>
             </div>
         </div>
@@ -215,20 +219,6 @@
 
 
         <!-- Footer Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-secondary rounded-top p-4">
-                <div class="row">
-                    <div class="col-12 col-sm-6 text-center text-sm-start">
-                        &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                    </div>
-                    <div class="col-12 col-sm-6 text-center text-sm-end">
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                        <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Footer End -->
     </div>
     <!-- Content End -->

@@ -3,7 +3,6 @@ package hello.geip.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.geip.dto.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,12 +13,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static hello.geip.web.basic.Key.API_KEY;
+
 @Service
 @Transactional
 public class RiotApiService {
-
-//    @Value("${RiotApiKey}")
-    private String apiKey = "";
+    private String apiKey = API_KEY;
 
     @Transactional
     public MainSummonerDTO SearchSummonerName(String name) throws JsonProcessingException {
