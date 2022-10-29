@@ -8,6 +8,7 @@
 - 새로고침 했을때 DB에 Update 안되는 문제 해결 
   1. 기존의 ConnectionMaker 삭제
   2. MatchDao jdbcTemplate 적용
+- 메인(searchBar)에 테스트 이미지 적용
 
 ### 10.26
 - 내전 팀 빌딩 + 추천 팀 빌딩 수정
