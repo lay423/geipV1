@@ -185,11 +185,12 @@
             <!-- Sales Chart Start -->
 
             <!-- Sales Chart End -->
-            <script>
+            <script th:inline="javascript">
                 /*<![CDATA[*/
                 function btnClick(){
                     var anText_sub1 = document.getElementById('n').value;
-                    location.href='getApi?name='+anText_sub1
+                     const page = /*[[${summoner.name}]]*/;
+                    location.href='getApi?name='+page
 
                 }
                 /*]]>*/
@@ -200,7 +201,7 @@
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Recent Plays</h6>
-                        <input class="form-control bg-dark border-0" type="search" id="n" placeholder="Search" style="width:100px">
+                        <input class="form-control bg-dark border-0" type="search" id="n" placeholder="Search" style="width:100px; visibility: hidden;">
                         <button type="button"
                                 class="btn btn-primary ms-2"
                                 style="width:100px;"
