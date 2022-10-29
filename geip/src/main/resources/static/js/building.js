@@ -20,9 +20,11 @@ var main={
         var _this = this;
 
         $('#btn-save').on('click', function (){
+            var group = {};
             var _team_array = [];
             var team = {};
-
+            var warname = document.getElementById("matchname").value;
+            group.matchName = warname;
             $('div.container div').each(function(index, item) {
                 if(item.className == "column" && item.id.length > 0) {
                     console.log("item", item, item.id);
@@ -37,18 +39,18 @@ var main={
                     });
                 }
             });
-
-            _this.save(_team_array);
+            group.player = _team_array;
+            _this.save(group);
         })
     },
-    save : function (_team_array){
-        console.log(_team_array);
+    save : function (group){
+        console.log(group);
         $.ajax({
             type: 'POST',
             url: '/api/teambuilding',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(_team_array)
+            data: JSON.stringify(group)
         }).done(function (){
             alert('저장되었습니다.')
         }).fail(function (error){
