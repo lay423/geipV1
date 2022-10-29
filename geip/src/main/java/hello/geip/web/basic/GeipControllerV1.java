@@ -44,7 +44,7 @@ public class GeipControllerV1 {
     public String search(@RequestParam String name, Model model) throws IOException, SQLException, ClassNotFoundException {
 
 
-        summonerDTO = search.getSummonerV1(name);
+        summonerDTO = search.getSummoner(name);
 
         MatchDao matchDao = new MatchDao();
         log.info("rjtlrl={}", summonerDTO.getName());
@@ -52,7 +52,17 @@ public class GeipControllerV1 {
         List<Match> listMatchs = matchDao.get(summonerDTO.getName());
 
         if (listMatchs.isEmpty()) {
-            log.info("공백");}
+            Match[] matchs;
+            try {
+                matchs = search.getMatchArr();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            for(int i=0; i<20; i++){
+                matchDao.add(matchs[i], summonerDTO.getName());
+            }
+            listMatchs = matchDao.get(summonerDTO.getName());
+        }
 
         model.addAttribute("matches", listMatchs);
         model.addAttribute("summoner", summonerDTO);
@@ -95,6 +105,10 @@ public class GeipControllerV1 {
         return "basic/search";
     }
 
+    @GetMapping("spinnerTest")
+    public String test() {
+        return "basic/spinnerTest";
+    }
 
     @GetMapping("search1")
     public String search1(@RequestParam String name, Model model) throws IOException {

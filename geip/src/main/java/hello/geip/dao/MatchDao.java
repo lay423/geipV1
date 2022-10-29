@@ -163,6 +163,9 @@ public class MatchDao {
             ps.setString(29, matches[i].getTeam10());
             ps.setString(30, match_ids[i]);
             i++;
+            ps.executeUpdate();
         }
+        ps.close();
+        conn.close();
     }
 }
