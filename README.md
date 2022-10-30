@@ -1,5 +1,13 @@
 # geipV1
 
+### 10.30
+- DB에 없는 유저 검색시 안되는거 오류 해결, Search, Key 위치변경
+  1. SearchService
+  2. RiotApiService
+  3. MatchDao
+  4. GeipControllerV1
+
+
 ### 10.29
 - 새로고침 누르면 바로 가능하게 수정
   1. search.html
