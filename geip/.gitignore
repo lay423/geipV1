@@ -9,7 +9,7 @@ build/
 !**/src/test/**/build/
 src/main/java/hello/geip/web/basic/Key.java
 application-secret.properties
-
+src/main/java/hello/geip/sql
 ### STS ###
 .apt_generated
 .classpath

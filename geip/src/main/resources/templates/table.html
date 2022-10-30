@@ -190,22 +190,25 @@
                         <h6 class="mb-4">내전 전적</h6>
                         <div th:each="competition : ${competitionList}">
                             <li class="info">
-                                <div style="margin-left: 15px;">WIN</div>
-                                <div class="competition">
-                                    <div th:text="${competition.competition_name}"></div>
-                                </div>
-                                <div class="participant">
+                                <div class="left_area">WIN</div>
+                                <div class="participant_blue">
                                     <ul>
-                                        <li th:each="blue : ${blueteamList}">
+                                        <li th:each="blue d: ${blueteamList}">
                                             <div th:text="${blue.lol_nick}"></div>
                                         </li>
                                     </ul>
+                                </div>
+                                <div class="competition">
+                                    <div th:text="${competition.competition_name}"></div>
+                                </div>
+                                <div class="participant_red">
                                     <ul>
                                         <li th:each="red : ${redteamList}">
                                             <div th:text="${red.lol_nick}"></div>
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="right_area">LOSE</div>
                             </li>
                         </div>
                     </div>
