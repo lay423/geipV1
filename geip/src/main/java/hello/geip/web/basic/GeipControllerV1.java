@@ -4,6 +4,7 @@ import hello.geip.dao.MatchDao;
 import hello.geip.dao.MatchRepository;
 import hello.geip.domain.Match;
 import hello.geip.dto.SummonerDTO;
+import hello.geip.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class GeipControllerV1 {
 
     private final MatchDao matchDao;
     private MatchRepository matchRepository;
-    Search search = new Search();
+    SearchService searchService = new SearchService();
     SummonerDTO summonerDTO;
 
     @Autowired
@@ -46,16 +47,16 @@ public class GeipControllerV1 {
     public String search(@RequestParam String name, Model model) throws IOException, SQLException, ClassNotFoundException {
 
 
-        summonerDTO = search.getSummoner(name);
+        summonerDTO = searchService.getSummoner(name);
 
         log.info("rjtlrl={}", summonerDTO.getName());
 
-        List<Match> listMatchs = matchDao.get(summonerDTO.getName());
 
-        if (listMatchs.isEmpty()) {
+        List<Match> listMatchs = matchDao.get(summonerDTO.getName());
+        if (listMatchs == null) {
             Match[] matchs;
             try {
-                matchs = search.getMatchArr();
+                matchs = searchService.getMatchArr();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -72,11 +73,11 @@ public class GeipControllerV1 {
     @GetMapping("getApi")
     public String getApi(@RequestParam String name, Model model) throws IOException, SQLException, ClassNotFoundException {
 
-        summonerDTO = search.getSummoner(name);
+        summonerDTO = searchService.getSummoner(name);
 
         Match[] matchs;
         try {
-            matchs = search.getMatchArr();
+            matchs = searchService.getMatchArr();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -118,11 +119,11 @@ public class GeipControllerV1 {
     public String search1(@RequestParam String name, Model model) throws IOException {
 
 
-        summonerDTO = search.getSummoner(name);
+        summonerDTO = searchService.getSummoner(name);
 
         Match[] matchDaos;
         try {
-            matchDaos = search.getMatchArr();
+            matchDaos = searchService.getMatchArr();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

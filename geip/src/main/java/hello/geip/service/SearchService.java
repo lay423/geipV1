@@ -1,8 +1,7 @@
-package hello.geip.web.basic;
+package hello.geip.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hello.geip.dao.MatchDao;
 import hello.geip.domain.Match;
 import hello.geip.dto.SummonerDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +18,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-import static hello.geip.web.basic.Key.API_KEY;
+import static hello.geip.service.Key.API_KEY;
 
 @Slf4j
-public class Search {
+public class SearchService {
     SummonerDTO summoner;
     URL url;
     HttpURLConnection connection;
@@ -30,7 +29,7 @@ public class Search {
     final int NAME_TO_START = 6000;
 //    final int NAME_TO_START = 2100;
     String response;
-    public Search() {
+    public SearchService() {
 
     }
 
