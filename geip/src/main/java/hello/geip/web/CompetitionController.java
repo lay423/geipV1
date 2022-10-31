@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-//@RequestMapping("/basic")
+@RequestMapping("/record")
 public class CompetitionController {
 
     @Autowired
     CompetitionService competitionService;
 
-    @RequestMapping("/")
+    @RequestMapping("/table")
     private String competitionList(Model model, HttpServletRequest request){
 
         List<CompetitionVo> competitionList = new ArrayList<>();
@@ -35,6 +35,7 @@ public class CompetitionController {
         redteamList = competitionService.getRedTeamList();
         model.addAttribute("redteamList",redteamList);
 
-        return "table";
+        return "record/table";
     }
+
 }

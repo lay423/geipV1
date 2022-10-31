@@ -1,5 +1,19 @@
 # geipV1
 
+### 10.29
+- 새로고침 누르면 바로 가능하게 수정
+  1. search.html
+- 검색했는데 DB에 없으면 바로 Riot에서 받아오게 수정
+  1. GeipControllerV1
+- 새로고침 했을때 DB에 Update 안되는 문제 해결 
+  1. 기존의 ConnectionMaker 삭제
+  2. MatchDao jdbcTemplate 적용
+- 메인(searchBar)에 테스트 이미지 적용
+
+### 10.26
+- 내전 팀 빌딩 + 추천 팀 빌딩 수정
+  1. 내전 이름 추가하여 내전 이름 + 플레이어 API로 post 전송
+
 ### 10.19
 - MatchDB 연동 -> 검색, Api -> 전적 새로고침
   1. Match 다시 domain으로

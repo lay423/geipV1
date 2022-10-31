@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -25,11 +25,11 @@
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/record.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/record.css" rel="stylesheet">
 </head>
 
 <body>
@@ -193,7 +193,7 @@
                                 <div class="left_area">WIN</div>
                                 <div class="participant_blue">
                                     <ul>
-                                        <li th:each="blue d: ${blueteamList}">
+                                        <li th:each="blue : ${blueteamList}">
                                             <div th:text="${blue.lol_nick}"></div>
                                         </li>
                                     </ul>
@@ -254,7 +254,7 @@
 <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
 <!-- Template Javascript -->
-<script src="js/main.js"></script>
+<script src="/js/main.js"></script>
 </body>
 
 </html>

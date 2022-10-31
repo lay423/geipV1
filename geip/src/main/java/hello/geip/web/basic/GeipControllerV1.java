@@ -20,12 +20,14 @@ import java.util.List;
 @Slf4j
 public class GeipControllerV1 {
 
+    private final MatchDao matchDao;
     private MatchRepository matchRepository;
     Search search = new Search();
     SummonerDTO summonerDTO;
 
     @Autowired
-    public GeipControllerV1(MatchRepository matchRepository) {
+    public GeipControllerV1(MatchDao matchDao, MatchRepository matchRepository) {
+        this.matchDao = matchDao;
         this.matchRepository = matchRepository;
     }
 
@@ -44,15 +46,24 @@ public class GeipControllerV1 {
     public String search(@RequestParam String name, Model model) throws IOException, SQLException, ClassNotFoundException {
 
 
-        summonerDTO = search.getSummonerV1(name);
+        summonerDTO = search.getSummoner(name);
 
-        MatchDao matchDao = new MatchDao();
         log.info("rjtlrl={}", summonerDTO.getName());
 
         List<Match> listMatchs = matchDao.get(summonerDTO.getName());
 
         if (listMatchs.isEmpty()) {
-            log.info("공백");}
+            Match[] matchs;
+            try {
+                matchs = search.getMatchArr();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            for(int i=0; i<20; i++){
+                matchDao.add(matchs[i], summonerDTO.getName());
+            }
+            listMatchs = matchDao.get(summonerDTO.getName());
+        }
 
         model.addAttribute("matches", listMatchs);
         model.addAttribute("summoner", summonerDTO);
@@ -61,7 +72,6 @@ public class GeipControllerV1 {
     @GetMapping("getApi")
     public String getApi(@RequestParam String name, Model model) throws IOException, SQLException, ClassNotFoundException {
 
-        MatchDao matchDao = new MatchDao();
         summonerDTO = search.getSummoner(name);
 
         Match[] matchs;
@@ -78,7 +88,11 @@ public class GeipControllerV1 {
 
             }
         } else {
-            matchDao.update(matchs, summonerDTO.getName());
+            List<Integer> match_ids = matchDao.getMatch_ids(summonerDTO.getName());
+            for(int i=0; i<20; i++){
+                matchDao.update(matchs[i], summonerDTO.getName(), match_ids.get(i));
+            }
+
         }
 
         for(int i=0; i<20; i++){
@@ -95,6 +109,10 @@ public class GeipControllerV1 {
         return "basic/search";
     }
 
+    @GetMapping("spinnerTest")
+    public String test() {
+        return "basic/spinnerTest";
+    }
 
     @GetMapping("search1")
     public String search1(@RequestParam String name, Model model) throws IOException {
