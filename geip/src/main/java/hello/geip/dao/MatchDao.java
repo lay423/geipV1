@@ -57,7 +57,7 @@ public class MatchDao {
     };
 
     public int add(Match match, String summonerName) {
-        return this.jdbcTemplate.update("INSERT INTO match(`id`,`gameMode`," +
+        return this.jdbcTemplate.update("INSERT INTO "+DB_NAME+"(`id`,`gameMode`," +
                 "`time`,`timeStartToEnd`,`win`," +
                 "`championName`," +
                 "`champLevel`," +

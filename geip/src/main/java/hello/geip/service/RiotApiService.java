@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static hello.geip.web.basic.Key.API_KEY;
+import static hello.geip.service.Key.API_KEY;
 
 @Service
 @Transactional
