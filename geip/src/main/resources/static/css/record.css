@@ -1,0 +1,19 @@
+li  {
+    list-style: none;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.info {
+    display:flex;
+    height: 96px;
+    border-radius: 6px;
+    border-left: 6px solid;
+    margin-bottom: 20px;
+}
+.competition {
+    margin-left: 15px;
+}
+.participant{
+    display:flex;
+    flex-wrap: wrap;
+}

@@ -44,7 +44,7 @@ var main={
         })
     },
     save : function (group){
-        console.log(group);
+        console.log("group  :",group);
         $.ajax({
             type: 'POST',
             url: '/api/teambuilding',
