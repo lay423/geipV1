@@ -1,9 +1,10 @@
-package hello.geip.web.basic;
+package hello.geip.web;
 
 import hello.geip.dao.MatchDao;
 import hello.geip.dao.MatchRepository;
 import hello.geip.domain.Match;
 import hello.geip.dto.SummonerDTO;
+import hello.geip.dto.TeamBuildingRiotApiDTO;
 import hello.geip.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class GeipControllerV1 {
         this.matchDao = matchDao;
         this.matchRepository = matchRepository;
     }
+
 
     @GetMapping("searchBar")
     public String searchBar(){
@@ -65,7 +67,10 @@ public class GeipControllerV1 {
             }
             listMatchs = matchDao.get(summonerDTO.getName());
         }
+        TeamBuildingRiotApiDTO teamBuildingRiotApiDTO;
+        teamBuildingRiotApiDTO = searchService.teamBuildingSearchSummoner(summonerDTO.getName());
 
+        model.addAttribute("league", teamBuildingRiotApiDTO);
         model.addAttribute("matches", listMatchs);
         model.addAttribute("summoner", summonerDTO);
         return "basic/search";
@@ -102,7 +107,10 @@ public class GeipControllerV1 {
         }
 
 
+        TeamBuildingRiotApiDTO teamBuildingRiotApiDTO;
+        teamBuildingRiotApiDTO = searchService.teamBuildingSearchSummoner(summonerDTO.getName());
 
+        model.addAttribute("league", teamBuildingRiotApiDTO);
 
         List<Match> listMatchDaos = matchRepository.findAll();
         model.addAttribute("matches", listMatchDaos);

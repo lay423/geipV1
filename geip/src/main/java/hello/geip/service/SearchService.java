@@ -3,8 +3,11 @@ package hello.geip.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.geip.domain.Match;
+import hello.geip.dto.LeagueEntryDTO;
 import hello.geip.dto.SummonerDTO;
+import hello.geip.dto.TeamBuildingRiotApiDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
@@ -16,7 +19,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static hello.geip.service.Key.API_KEY;
 
@@ -32,11 +38,86 @@ public class SearchService {
     public SearchService() {
 
     }
+    @Transactional
+    public TeamBuildingRiotApiDTO teamBuildingSearchSummoner(String name) throws JsonProcessingException {
+
+        String summonerURL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + API_KEY;
+        String summonerResult = WebClient.create(summonerURL)
+                .get()
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        ObjectMapper mapper = new ObjectMapper();
+        SummonerDTO summonerDTO = mapper.readValue(summonerResult, SummonerDTO.class);
+        System.out.println(summonerDTO.toString());
+
+        String leagueURL = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerDTO.getId() + "?api_key=" + API_KEY;
+
+        String leagueResult = WebClient.create(leagueURL)
+                .get()
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        System.out.println(leagueResult);
+
+        List<TeamBuildingRiotApiDTO> teamBuildingRiotApiDTOS = new ArrayList<>();
+        List<LeagueEntryDTO> leagueEntryDTOS = Arrays.asList(mapper.readValue(leagueResult, LeagueEntryDTO[].class));
+        LeagueEntryDTO leagueEntryDTO = new LeagueEntryDTO();
+        System.out.println(leagueEntryDTOS.size());
+
+        if(leagueEntryDTOS.size() == 0){
+            leagueEntryDTO.setSummonerName(summonerDTO.getName());
+            leagueEntryDTO.setRank("UNRANKED");
+            leagueEntryDTO.setTier("");
+            leagueEntryDTO.setWins(0);
+            leagueEntryDTO.setLosses(0);
+
+        }else{
+            for(int i = 0; i < leagueEntryDTOS.size(); i++){
+                if(leagueEntryDTOS.get(i).getQueueType().equals("RANKED_SOLO_5x5")){
+                    leagueEntryDTO = leagueEntryDTOS.get(i);
+                    break;
+                }
+            }
+        }
+        TeamBuildingRiotApiDTO teamBuildingRiotApiDTO = TeamBuildingRiotApiDTO.builder()
+                .leagueEntryDTO(leagueEntryDTO)
+                .build();
+        String tier = teamBuildingRiotApiDTO.getTier();
+        teamBuildingRiotApiDTO.setTierImage(getTierImage(tier));
+
+        return teamBuildingRiotApiDTO;
+
+    }
+
+    private String getTierImage(String tier) {
+        String tierImage="default.png";
+        if (tier.equals("BRONZE")) {
+            tierImage="base-icons/bronze.png";
+        } else if (tier.equals("SILVER")) {
+            tierImage="base-icons/silver.png";
+        } else if (tier.equals("GOLD")) {
+            tierImage="base-icons/gold.png";
+        } else if (tier.equals("PLATINUM")) {
+            tierImage="base-icons/platinum.png";
+        } else if (tier.equals("DIAMOND")) {
+            tierImage="base-icons/diamond.png";
+        } else if (tier.equals("MASTER")) {
+            tierImage="base-icons/master.png";
+        } else if (tier.equals("CHALLENGER")) {
+            tierImage="base-icons/challenger.png";
+        } else{
+            tierImage="base-icons/provisional.png";
+        }
+        return tierImage;
+    }
 
     public SummonerDTO getSummonerV1(String summonerName) throws JsonProcessingException {
 
         String testSummonerUrl = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
-                + summonerName.replace(" ", "%20") + "?api_key=" + API_KEY;
+                + summonerName.replace("  ", "%20") + "?api_key=" + API_KEY;
 
         String leagueResult = WebClient.create(testSummonerUrl)
                 .get()
@@ -65,7 +146,6 @@ public class SearchService {
         log.info("이름={}", summonerName);
         response = getApiDataByURL("https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
                 + summonerName.replace(" ", "%20") + "?api_key=" + API_KEY);
-        log.info("왜리음이것={}", getSource("name", response));
         summoner = new SummonerDTO(getSource("name", response),
                 Integer.parseInt(getSource("profileIconId", response)),
                 Integer.parseInt(getSource("summonerLevel", response)),
