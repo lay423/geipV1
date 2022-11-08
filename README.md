@@ -1,5 +1,12 @@
 # geipV1
 
+### 11.08
+- [Update] 매치검색시 리그정보받아오기 기능 추가
+  1. GeipControllerV1
+  2. SearchService
+  3. search.html
+  4. TeamBuildingRiotApiDTO 필드추가
+
 ### 11.01
 - 내전 전적 기능 구현전 연결확인
   1. 완벽한 기능 구현은 진행중
