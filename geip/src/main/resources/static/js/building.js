@@ -57,7 +57,25 @@ var main={
             alert(JSON.stringify(error));
         })
 
-    }
+    },
+
+    matchNameConfirm: function(competitionName) {
+    		return new Promise((resolve, reject) => {
+    			$.ajax({
+    				url: "/api/record/matchName",
+    				type: 'GET',
+    				data: { competitionName },
+    				success: function(res) {
+    					resolve(res);
+    				},
+    				error: function(error) {
+    					console.error("에러 : ", error);
+    					reject(error);
+    				}
+    			});
+    		})
+
+    	}
 }
 
 main.init();

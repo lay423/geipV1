@@ -1,14 +1,17 @@
 package hello.geip.service;
 
-import hello.geip.bean.BlueTeamVo;
 import hello.geip.bean.CompetitionVo;
-import hello.geip.bean.RedTeamVo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CompetitionService {
 
     List<CompetitionVo> getCompetitionList();
-    List<RedTeamVo> getRedTeamList();
-    List<BlueTeamVo> getBlueTeamList();
+
+    List<CompetitionVo> apiCompetitionList(Map<String,Object> param);
+
+    void apiCompetitionUpdate(String winGroupId, String loseGroupId);
+
+    int matchNameCheck(String competitionName);
 }

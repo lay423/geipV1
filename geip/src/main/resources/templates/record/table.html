@@ -30,6 +30,27 @@
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/record.css" rel="stylesheet">
+    <style>
+	.war-recode-container{margin-left: 48px;}
+	.war-recode-container .column{display: inline-block;}
+	.war-recode-container .red{color: red; font-size: 1rem; display: inline-block; margin-left: 116px;}
+	.war-recode-container .name{font-size: 1rem;display: inline-block;margin-left: 125px;}
+	.war-recode-container .blue{color: blue;font-size: 1rem ;display: inline-block;margin-left: 105px;}
+ 	#war-record .info{padding-left: 50px; margin-bottom: 100px}
+
+ 	#war-record{max-height: 800px; overflow-y: scroll;}
+ 	#war-record .competition{color:#fff; font-size: 1.3rem}
+
+ 	#war-record .info .left_area{font-size: 2.0rem; font-weight: bold; width: 78px; height: 96px; cursor: pointer;}
+ 	#war-record .info ul li div{width: 150px; overflow: hidden; text-overflow: ellipsis ;white-space: nowrap;}
+ 	#war-record .info .competition {width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align: center;}
+ 	#war-record .info .blueTeam{    margin-left: 40px;}
+
+ 	#war-record .info .right_area {margin-left: 32px;font-size: 2.0rem;font-weight: bold;  width: 78px; height: 96px; cursor: pointer;}
+ 	#war-record .info .redActive{color:red;}
+ 	#war-record .info .blueActive{color:blue;}
+ 	#war-record .info .nick{color:#fff};
+ </style>
 </head>
 
 <body>
@@ -99,7 +120,8 @@
                 <i class="fa fa-bars"></i>
             </a>
             <form class="d-none d-md-flex ms-4">
-                <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                <input class="form-control bg-dark border-0" type="search" id="keyword" placeholder="Search" style="width: 70%;">
+                <button type="button" id="searchBtn" class="btn btn-primary">검색</button>
             </form>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
@@ -188,29 +210,41 @@
                 <div class="col-12">
                     <div class="bg-secondary rounded h-100 p-4">
                         <h6 class="mb-4">내전 전적</h6>
-                        <div th:each="competition : ${competitionList}">
-                            <li class="info">
-                                <div class="left_area">WIN</div>
-                                <div class="participant_blue">
+
+                        <div class="war-recode-container mb-3">
+                            <h3>유저이름을 검색해주세요.</h3>
+                        </div>
+
+
+
+                        <div id="war-record">
+                            <!--
+                         <div class="info">
+                               <div class="left_area redActive">WIN</div>
+                                <div>
                                     <ul>
-                                        <li th:each="blue : ${blueteamList}">
-                                            <div th:text="${blue.lol_nick}"></div>
+                                        <li>
+                                            <div class="nick">kdkkdkkdkkdk</div>
                                         </li>
+
                                     </ul>
                                 </div>
                                 <div class="competition">
-                                    <div th:text="${competition.competition_name}"></div>
+                                    <div>매치이름</div>
                                 </div>
-                                <div class="participant_red">
+                                <div>
                                     <ul>
-                                        <li th:each="red : ${redteamList}">
-                                            <div th:text="${red.lol_nick}"></div>
+                                        <li>
+                                            <div>opggopggopggopgg</div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="right_area">LOSE</div>
-                            </li>
+                                <div class="blueActive right_area">LOSE</div>
+                         </div>
+                      </div>
+                       -->
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -255,6 +289,7 @@
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>
+<script src="/js/record-table.js"></script>
 </body>
 
 </html>
