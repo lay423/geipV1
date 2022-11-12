@@ -60,26 +60,16 @@
                 </div>
             </div>
             <div class="navbar-nav w-100">
-                <a href="index.html" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                <a href="/searchBar" class="nav-item nav-link active"><i class="fa fa-laptop me-2"></i>전적 검색</a>
+                <a href="/teamBuilding" class="nav-item nav-link"><i class="fa fa-table me-2"></i>내전 팀 빌딩</a>
+                <a href="/record/table.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>내전 전적 보기</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>계정 설정</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="button.html" class="dropdown-item">Buttons</a>
-                        <a href="typography.html" class="dropdown-item">Typography</a>
-                        <a href="element.html" class="dropdown-item">Other Elements</a>
-                    </div>
-                </div>
-                <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
-                <a href="table.html" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Tables</a>
-                <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="signin.html" class="dropdown-item">Sign In</a>
-                        <a href="signup.html" class="dropdown-item">Sign Up</a>
-                        <a href="404.html" class="dropdown-item">404 Error</a>
-                        <a href="blank.html" class="dropdown-item">Blank Page</a>
+                        <a href="signin.html" class="dropdown-item">롤 닉네임 설정</a>
+                        <a href="signup.html" class="dropdown-item">로그인</a>
+                        <a href="404.html" class="dropdown-item">로그아웃</a>
+                        <a href="blank.html" class="dropdown-item">Settings</a>
                     </div>
                 </div>
             </div>
@@ -98,8 +88,9 @@
             <a href="#" class="sidebar-toggler flex-shrink-0">
                 <i class="fa fa-bars"></i>
             </a>
-            <form class="d-none d-md-flex ms-4">
-                <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+            <form class="d-none d-md-flex ms-4" id="frm1">
+                <input class="form-control bg-dark border-0" type="search" id="keyword" placeholder="Search" style="width: 70%;">
+                <button type="button" id="searchBtn" class="btn btn-primary">검색</button>
             </form>
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
@@ -188,29 +179,41 @@
                 <div class="col-12">
                     <div class="bg-secondary rounded h-100 p-4">
                         <h6 class="mb-4">내전 전적</h6>
-                        <div th:each="competition : ${competitionList}">
-                            <li class="info">
-                                <div class="left_area">WIN</div>
-                                <div class="participant_blue">
+
+                        <div class="war-recode-container mb-3">
+                            <h3>유저이름을 검색해주세요.</h3>
+                        </div>
+
+
+
+                        <div id="war-record">
+                            <!--
+                         <div class="info">
+                               <div class="left_area redActive">WIN</div>
+                                <div>
                                     <ul>
-                                        <li th:each="blue : ${blueteamList}">
-                                            <div th:text="${blue.lol_nick}"></div>
+                                        <li>
+                                            <div class="nick">kdkkdkkdkkdk</div>
                                         </li>
+
                                     </ul>
                                 </div>
                                 <div class="competition">
-                                    <div th:text="${competition.competition_name}"></div>
+                                    <div>매치이름</div>
                                 </div>
-                                <div class="participant_red">
+                                <div>
                                     <ul>
-                                        <li th:each="red : ${redteamList}">
-                                            <div th:text="${red.lol_nick}"></div>
+                                        <li>
+                                            <div>opggopggopggopgg</div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="right_area">LOSE</div>
-                            </li>
+                                <div class="blueActive right_area">LOSE</div>
+                         </div>
+                      </div>
+                       -->
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -255,6 +258,7 @@
 
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>
+<script src="/js/record-table.js"></script>
 </body>
 
 </html>

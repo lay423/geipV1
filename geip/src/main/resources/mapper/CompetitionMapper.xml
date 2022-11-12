@@ -5,12 +5,33 @@
 
 <mapper namespace="hello.geip.mapper.CompetitionMapper">
 
-    <select id="getCompetitionList" resultType="hello.geip.bean.CompetitionVo">
-        SELECT distinct competition_name
-        FROM competition a
-        WHERE a.competition_name
-        IN (SELECT b.competition_name FROM competition b WHERE lol_nick = 'kdk') and a.win_lose = 'w'
-        ORDER BY competition_name ASC
+    <select id="apiCompetitionList" resultType="hello.geip.bean.CompetitionVo">
+
+        SELECT a.* FROM competition a inner join
+
+        (SELECT  competition_name  FROM competition  WHERE lol_nick = #{nick}  GROUP BY competition_name)  b
+
+        on a.competition_name =b.competition_name   WHERE team = #{team}
+
+        ORDER BY id DESC
+
+    </select>
+
+
+
+    <update id="apiCompetitionUpdate">
+        UPDATE competition
+
+        SET  win_lose=#{status}
+
+        WHERE groupId=#{groupId}
+    </update>
+
+
+
+    <select id="matchNameCheck" resultType="int">
+
+        select count(id) from competition where competition_name =#{competitionName}
     </select>
 
 </mapper>

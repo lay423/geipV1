@@ -17,3 +17,22 @@ li  {
     display:flex;
     flex-wrap: wrap;
 }
+.war-recode-container{margin-left: 48px;}
+.war-recode-container .column{display: inline-block;}
+.war-recode-container .red{color: red; font-size: 1rem; display: inline-block; margin-left: 116px;}
+.war-recode-container .name{font-size: 1rem;display: inline-block;margin-left: 125px;}
+.war-recode-container .blue{color: blue;font-size: 1rem ;display: inline-block;margin-left: 105px;}
+#war-record .info{padding-left: 50px; margin-bottom: 100px}
+
+#war-record{max-height: 800px; overflow-y: scroll;}
+#war-record .competition{color:#fff; font-size: 1.3rem}
+
+#war-record .info .left_area{font-size: 2.0rem; font-weight: bold; width: 78px; height: 96px; cursor: pointer;}
+#war-record .info ul li div{width: 150px; overflow: hidden; text-overflow: ellipsis ;white-space: nowrap;}
+#war-record .info .competition {width: 150px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align: center;}
+#war-record .info .blueTeam{    margin-left: 40px;}
+
+#war-record .info .right_area {margin-left: 32px;font-size: 2.0rem;font-weight: bold;  width: 78px; height: 96px; cursor: pointer;}
+#war-record .info .redActive{color:red;}
+#war-record .info .blueActive{color:blue;}
+#war-record .info .nick{color:#fff};
