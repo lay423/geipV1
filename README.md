@@ -1,5 +1,11 @@
 # geipV1
 
+### 11.12
+- 내전 전적 기능 구현 완료
+  1. TeamBuilding.html에서 저장된 정보 DB에 저장
+  2. table/html에서 승패 결정 안된 목록 보이기
+  3. 승패 결정 후 정보 업데이트
+
 ### 11.08
 - [Update] 매치검색시 리그정보받아오기 기능 추가
   1. GeipControllerV1
