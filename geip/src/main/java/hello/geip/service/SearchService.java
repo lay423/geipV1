@@ -371,7 +371,7 @@ public class SearchService {
             response = response.substring(response.indexOf(summoner.getName()) - NAME_TO_START);
         } catch (StringIndexOutOfBoundsException e){
             //response = response.substring(response.indexOf(summoner.getSummonerName()) - NAME_TO_START);
-            log.info("지안오류발생-튜토리얼게임");
+            log.info("튜토리얼게임");
         }
 
         response = response.substring(response.indexOf("assist"));
