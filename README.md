@@ -1,4 +1,28 @@
 # geipV1
+![mainimage](https://github.com/lay423/geipV1/assets/41409287/eef3a1fd-2639-4ca1-b8b8-c98c417407da)
+![7](https://github.com/lay423/geipV1/assets/41409287/54aecf06-119d-4a2b-80dc-086dab190e60)
+![제목 없음](https://github.com/lay423/geipV1/assets/41409287/a453864b-6b0b-4018-a541-94501d96d6b7)
+
+## 프로젝트 소개
+리그오브레전드 전적검색, 내전 팀 추천 웹 애플리케이션
+
+### 팀원 소개
+- 팀장 : 황준하
+- 개발 : 김준영
+- 개발 : 김대근
+
+## 프로젝트 기술스택
+- Backend tech stack
+    - Java 11, Spring boot 2.7.3, MySQL, Spring JPA, Gradle 7.6
+- Front tech stack
+    - HTML, CSS, Java Script, Thymeleaf
+- Devops stack
+    - AWS EC2, Docker
+
+## ERD
+![075e8ffd8cf61a0f](https://github.com/lay423/geipV1/assets/41409287/a7a1d188-9433-4f04-a990-53d299968f81)
+
+
 
 ### 11.12
 - 내전 전적 기능 구현 완료
